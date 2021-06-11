@@ -12,35 +12,6 @@
 
 #include "libft.h"
 
-/*
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*sjn;
-	size_t	i;
-	size_t	j;
-
-	if (s1 == NULL || s2 == NULL)
-		return (NULL);
-	if (!(sjn = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char))))
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (i < ft_strlen(s1))
-	{
-		sjn[i] = s1[i];
-		i++;
-	}
-	while (i < (ft_strlen(s1) + ft_strlen(s2)))
-	{
-		sjn[i] = s2[j];
-		i++;
-		j++;
-	}
-	sjn[i] = '\0';
-	return (sjn);
-}
-*/
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*sjn;
@@ -52,8 +23,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	lens1 = ft_strlen(s1);
 	lens2 = ft_strlen(s2);
-	if (!(sjn = (char*)malloc((lens1 + lens2 + 1) * sizeof(char))))
-		return (NULL);
+	sjn = (char *)ft_calloc(lens1 + lens2 + 1, sizeof(char));
 	i = 0;
 	while (i < lens1)
 	{
