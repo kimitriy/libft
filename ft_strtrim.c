@@ -12,103 +12,43 @@
 
 #include "libft.h"
 
-static size_t	lndx(char const *s1, char const *set)
+int	ft_check_set(char smb, char const *check)
 {
-	size_t	i;
-	size_t	j;
-	size_t	nomatch;
+	int	i;
 
 	i = 0;
-	j = 0;
-	nomatch = 0;
-	while (s1[i])
+	while (check[i] != '\0')
 	{
-		while (set[j])
-		{
-			if (s1[i] != set[j])
-				nomatch++;
-			j++;
-		}
-		j = 0;
-		if (nomatch < ft_strlen(set))
-		{
-			i++;
-			nomatch = 0;
-		}
-		else
-			return (i);
+		if (smb == check[i])
+			return (1);
+		i++;
 	}
 	return (0);
 }
 
-static size_t	rndx(char const *s1, char const *set)
+char	*ft_strtrim(char const *str, char const *set)
 {
+	char	*trimstr;
 	size_t	i;
+	size_t	len;
 	size_t	j;
-	size_t	nomatch;
 
-	i = ft_strlen(s1) - 1;
+	if (!str)
+		return (NULL);
+	i = 0;
 	j = 0;
-	nomatch = 0;
-	while (i > 0)
-	{
-		while (set[j])
-		{
-			if (s1[i] != set[j])
-				nomatch++;
-			j++;
-		}
-		j = 0;
-		if (nomatch < ft_strlen(set))
-		{
-			i--;
-			nomatch = 0;
-		}
-		else
-			return (i);
-	}
-	return (0);
-}
-/*
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	size_t		i;
-	size_t		j;
-	char		*a;
-
-	if (!s1 || !set)
-		return (NULL);
-	i = 0;
-	while (s1[i] && ft_strchr(set, s1[i]))
+	len = ft_strlen(str);
+	while (str[i] != '\0' && ft_check_set(str[i], set))
 		i++;
-	j = ft_strlen(s1) - i;
-	while (j && ft_strchr(set, s1[i + j]))
-		j--;
-	a = ft_substr((char*)s1, i, j + 1);
-	return (a);
-}
-*/
-char			*ft_strtrim(char const *s1, char const *set)
-{
-	char	*strim;
-	size_t	i;
-	size_t	j;
-
-	if (s1 == NULL)
-		return (NULL);
-	strim = (char*)malloc((rndx(s1, set) - lndx(s1, set) + 2) * sizeof(char));
-	if (NULL == strim)
-		return (NULL);
-	i = 0;
-	j = lndx(s1, set);
-	while (i < (rndx(s1, set) - lndx(s1, set) + 1))
+	if (i < len)
+		while (ft_check_set(str[len - 1], set))
+			len--;
+	trimstr = (char *)ft_calloc(len - i + 1, sizeof(*str));
+	while (i + j < len)
 	{
-		strim[i] = s1[j];
-		i++;
+		trimstr[j] = str[i + j];
 		j++;
 	}
-	if (lndx(s1, set) == 0 && rndx(s1, set) == 0)
-		strim[0] = '\0';
-	strim[i] = '\0';
-	return (strim);
+	trimstr[j] = '\0';
+	return (trimstr);
 }
